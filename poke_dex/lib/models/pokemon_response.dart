@@ -1,10 +1,10 @@
 
 import 'package:poke_dex/models/pokemon_result.dart';
-
+// response vai pegar as informações como a count o next o previous e os resultados para preeencher no mapa
 class PokemonResponse {
   final int count;
-  final String next;
-  final String previous;
+  final String? next;
+  final String? previous;
   final List<PokemonResult> results;
 
   PokemonResponse({

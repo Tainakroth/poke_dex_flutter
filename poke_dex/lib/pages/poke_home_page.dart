@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:poke_dex/pages/poke_information_page.dart';
 import 'package:poke_dex/models/pokemon_result.dart';
+import 'package:poke_dex/pages/poke_information_page.dart';
 
 class PokeHomePage extends StatefulWidget {
   final List<PokemonResult> pokemonList;
@@ -19,52 +19,37 @@ class _PokeHomePageState extends State<PokeHomePage> {
   void initState() {
     super.initState();
     filtroPokemonList = List.from(widget.pokemonList);
-    _applyFilter(_currentFiltro); 
   }
 
   void _applyFilter(String filtro) {
     setState(() {
       _currentFiltro = filtro;
       switch (filtro) {
-        case 'A a Z':
-          filtroPokemonList = List.from(widget.pokemonList)
-            ..sort((a, b) => a.name.compareTo(b.name));
-          break;
-        case 'Z a A':
-          filtroPokemonList = List.from(widget.pokemonList)
-            ..sort((a, b) => b.name.compareTo(a.name));
-          break;
         case 'Crescente':
-          filtroPokemonList = List.from(widget.pokemonList)
-            ..sort((a, b) => a.id.compareTo(b.id)); 
+          filtroPokemonList.sort((a, b) => a.id.compareTo(b.id));
           break;
         case 'Decrescente':
-          filtroPokemonList = List.from(widget.pokemonList)
-            ..sort((a, b) => b.id.compareTo(a.id));
+          filtroPokemonList.sort((a, b) => b.id.compareTo(a.id));
           break;
       }
     });
   }
 
-   void _onPokemonCardPressed(BuildContext context, PokemonResult pokemon) {
+  void _filterPokemons(String query) {
+    setState(() {
+      filtroPokemonList = widget.pokemonList.where((pokemon) {
+        final pokemonName = pokemon.name.toLowerCase();
+        return pokemonName.contains(query.toLowerCase());
+      }).toList();
+    });
+  }
+
+  void _onPokemonCardPressed(BuildContext context, PokemonResult pokemon) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PokemonInfoPage(pokemon: pokemon),
       ),
     );
-  }
-
-  void _filterPokemons(String query) {
-    setState(() {
-      filtroPokemonList = widget.pokemonList.where((pokemon) {
-        final originalIndex = widget.pokemonList.indexOf(pokemon);
-        final pokemonNumber = (originalIndex + 1).toString();
-        final pokemonName = pokemon.name.toLowerCase();
-
-        return pokemonName.contains(query.toLowerCase()) ||
-            pokemonNumber.contains(query);
-      }).toList();
-    });
   }
 
   String _capitalize(String text) {
@@ -75,9 +60,9 @@ class _PokeHomePageState extends State<PokeHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: const Color.fromARGB(255, 80, 77, 116),
       appBar: AppBar(
-        backgroundColor: Colors.red[800],
+        backgroundColor: const Color.fromARGB(255, 68, 68, 107),
         title: const Text(
           'Pokedex',
           style: TextStyle(
@@ -93,56 +78,6 @@ class _PokeHomePageState extends State<PokeHomePage> {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  value: 'A a Z',
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[800],
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'A a Z',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'Z a A',
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[800],
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Z a A',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                PopupMenuItem(
                   value: 'Crescente',
                   child: Container(
                     width: double.infinity,
@@ -151,13 +86,6 @@ class _PokeHomePageState extends State<PokeHomePage> {
                     decoration: BoxDecoration(
                       color: Colors.grey[800],
                       borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
                     ),
                     child: const Center(
                       child: Text(
@@ -176,13 +104,6 @@ class _PokeHomePageState extends State<PokeHomePage> {
                     decoration: BoxDecoration(
                       color: Colors.grey[800],
                       borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
                     ),
                     child: const Center(
                       child: Text(
@@ -195,7 +116,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
               ];
             },
             icon: const Icon(Icons.filter_list, color: Colors.white),
-            color: Colors.grey[900],
+            color: const Color.fromARGB(255, 26, 24, 124),
             elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -203,99 +124,114 @@ class _PokeHomePageState extends State<PokeHomePage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Pesquisar pokémon...',
-                  hintStyle: TextStyle(color: Colors.grey[600]),
-                  prefixIcon: const Icon(Icons.search, color: Colors.red),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 16.0,
-                    horizontal: 16.0,
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            // Campo de pesquisa
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(255, 30, 29, 122).withOpacity(0.2),
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
-                style: const TextStyle(color: Colors.black),
-                onChanged: _filterPokemons,
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Pesquisar pokémon...',
+                    hintStyle: TextStyle(color: Colors.grey[600]),
+                    prefixIcon: const Icon(Icons.search, color: Colors.red),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 10.0,
+                    ),
+                  ),
+                  style: const TextStyle(color: Color.fromARGB(255, 31, 8, 133)),
+                  onChanged: _filterPokemons,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filtroPokemonList.length,
-              itemBuilder: (context, index) {
-                final pokemon = filtroPokemonList[index];
-                final originalIndex = widget.pokemonList.indexOf(pokemon);
-                final pokemonNumber = originalIndex + 1;
+            // GridView
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1, // Uma coluna
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.8,
+                ),
+                itemCount: filtroPokemonList.length,
+                itemBuilder: (context, index) {
+                  final pokemon = filtroPokemonList[index];
+                  final originalIndex = widget.pokemonList.indexOf(pokemon);
+                  final pokemonNumber = originalIndex + 1;
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
-                  elevation: 4.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: Colors.grey[800],
-                  child: InkWell(
+                  return GestureDetector(
                     onTap: () => _onPokemonCardPressed(context, pokemon),
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
+                    child: Card(
+                      elevation: 6.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      color: Colors.transparent,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.network(
-                            pokemon.imagemUrl,
-                            width: 50,
-                            height: 50,
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
-                              return const Icon(Icons.error,
-                                  color: Colors.white);
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            '#$pokemonNumber',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: Image.network(
+                              pokemon.imagemUrl,
+                              width: 100,
+                              height: 100,
+                              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                return const Icon(Icons.error, color: Colors.white);
+                              },
                             ),
                           ),
-                          const SizedBox(width: 16),
-                          Text(
-                            _capitalize(pokemon.name),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
+                          const SizedBox(height: 12),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                            child: Text(
+                              '#$pokemonNumber',
+                              style: const TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue[200],
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                            child: Text(
+                              _capitalize(pokemon.name),
+                              style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-

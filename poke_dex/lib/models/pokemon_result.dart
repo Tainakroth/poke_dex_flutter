@@ -1,4 +1,4 @@
-
+//criei na models uma classe para puxar atraves da api como parametros o nome a url a imagem e o id os tipos gerações e habilidades dos pokemons
 class PokemonResult{
   final String name;
   final String url;

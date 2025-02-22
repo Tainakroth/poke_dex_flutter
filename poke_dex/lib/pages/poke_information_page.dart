@@ -18,7 +18,7 @@ String _capitalize(String text){
 
 Widget _buildHabilidadeCard(String ability) {
     return Card(
-      color: Colors.grey[800],
+      color: const Color.fromARGB(255, 19, 5, 56),
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -140,9 +140,9 @@ Widget _buildHabilidadeCard(String ability) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: const Color.fromARGB(255, 11, 7, 61),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 36, 14, 14),
+        backgroundColor: const Color.fromARGB(255, 8, 3, 27),
         title: Text(
           _capitalize(pokemon.name),
           style: const TextStyle(

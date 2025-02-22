@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:poke_dex/pages/carregar_page.dart';
-
+import 'package:poke_dex/pages/splash_page.dart';
+//pagina inicial com a logo do aplicativo parte mais estetica
 class PokeDexApp extends StatelessWidget {
   const PokeDexApp({super.key});
 
@@ -11,12 +11,12 @@ class PokeDexApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.red[800]!,
+          seedColor: const Color.fromARGB(255, 63, 53, 119)!,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
       ),
-      home: const CarregarPage(),
+      home: const SplashPage(),
     );
   }
 }
