@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:poke_dex/models/pokemon_response.dart';
 import 'package:poke_dex/models/pokemon_result.dart';
+import 'package:poke_dex/models/pokemons_detalhes.dart';
 import 'package:poke_dex/pages/poke_home_page.dart';
-//a pagina splash vai pegar os pokemons e mostrar na home page 
+
+//a pagina splash vai pegar os pokemons e mostrar na home page
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -23,18 +25,18 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> _getPokemons() async {
     final dio = Dio();
-    final response = 
-    await dio.get('https://pokeapi.co/api/v2/pokemon?limit=1034');
+    final response =
+        await dio.get('https://pokeapi.co/api/v2/pokemon?limit=1034');
 
     var model = PokemonResponse.fromMap(response.data);
     pokemonList = model.results;
-    isLoading = false; 
-    if(!context.mounted) return;  
+    isLoading = false;
+    if (!context.mounted) return;
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => PokeHomePage(pokemonList: pokemonList)),
+      MaterialPageRoute(
+          builder: (context) => PokeHomePage(pokemonList: pokemonList)),
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +60,11 @@ class _SplashPageState extends State<SplashPage> {
               size: 100,
               color: Colors.white,
             ),
-            isLoading == true ?
-          const CircularProgressIndicator(
-            color: Colors.white,
-          ) : SizedBox()
+            isLoading == true
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : SizedBox()
           ],
         ),
       ),

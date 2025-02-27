@@ -11,7 +11,7 @@ class PokeDexApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 63, 53, 119)!,
+          seedColor: const Color.fromARGB(255, 16, 4, 85)!,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
