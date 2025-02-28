@@ -30,9 +30,9 @@ class PokemonInfoPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           var pokemonDetalhes = snapshot.data;
           return Scaffold(
-            backgroundColor: const Color.fromARGB(255, 45, 44, 114),
+            backgroundColor: const Color.fromARGB(255, 8, 31, 133),
             appBar: AppBar(
-              backgroundColor: const Color.fromARGB(255, 43, 32, 85),
+              backgroundColor: const Color.fromARGB(255, 5, 13, 131),
               title: Text(
                 _capitalize(pokemonDetalhes!.name),
                 style: const TextStyle(
@@ -110,22 +110,50 @@ class PokemonInfoPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Agora as seções de HP, Altura, Peso, Defesa dentro de um Column
+                  //seções de HP, Altura, Peso, Defesa dentro de um Column
                   Column(
                     children: [
                       _buildHPSection(pokemonDetalhes),
+                    ],
+                  ),
+                  Column(
+                    children: [
                       const SizedBox(height: 10),
                       _buildAlturaSection(pokemonDetalhes),
                       const SizedBox(height: 10),
                       _buildPesoSection(pokemonDetalhes),
                       const SizedBox(height: 10),
+                    ],
+                  ),
+                  Column(
+                    children: [
                       _buildAtaqueSection(pokemonDetalhes),
                       const SizedBox(height: 10),
                       _buildDefesaSection(pokemonDetalhes),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      _buildAtaqueEspecialSection(pokemonDetalhes),
+                      const SizedBox(height: 10),
+                      _buildDefesaEspecialSection(pokemonDetalhes),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      _buildVelocidadeSection(pokemonDetalhes),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      _buildMovimentoSection(pokemonDetalhes),
+                      const SizedBox(height: 10),
                     ],
                   ),
                   const SizedBox(height: 10),
-
                   // Habilidades Section
                   _buildHabilidadesSection(pokemonDetalhes),
                 ],
@@ -152,7 +180,7 @@ class PokemonInfoPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'HP:',
+          'Hp:',
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
@@ -262,6 +290,75 @@ class PokemonInfoPage extends StatelessWidget {
     );
   }
 
+  Widget _buildAtaqueEspecialSection(PokemonsDetalhes pokemonsDetalhes) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'AtaqueEspecial:',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          '${pokemonsDetalhes.ataqueespecial}',
+          style: const TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDefesaEspecialSection(PokemonsDetalhes pokemonsDetalhes) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'DefesaEspecial:',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          '${pokemonsDetalhes.defesaespecial}',
+          style: const TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildVelocidadeSection(PokemonsDetalhes pokemonDetalhes) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Velocidade:',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          '${pokemonDetalhes.velocidade}',
+          style: const TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildHabilidadesSection(PokemonsDetalhes pokemonDetalhes) {
     return Column(
       children: [
@@ -280,6 +377,28 @@ class PokemonInfoPage extends StatelessWidget {
               .map((habilidade) => _buildHabilidadeCard(habilidade))
               .toList(),
         ),
+      ],
+    );
+  }
+
+  Widget _buildMovimentoSection(PokemonsDetalhes pokemonDetalhes) {
+    return Column(
+      children: [
+        const Text(
+          'Movimentos:',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          '${pokemonDetalhes.movimentos}',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+          ),
+        )
       ],
     );
   }

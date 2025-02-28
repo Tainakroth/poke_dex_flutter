@@ -61,9 +61,9 @@ class _PokeHomePageState extends State<PokeHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 19, 27, 139),
+      backgroundColor: const Color.fromARGB(255, 9, 17, 139),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 43, 11, 185),
+        backgroundColor: const Color.fromARGB(255, 12, 21, 150),
         title: const Text(
           'Pokemons',
           style: TextStyle(
@@ -117,7 +117,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
               ];
             },
             icon: const Icon(Icons.filter_list, color: Colors.white),
-            color: const Color.fromARGB(255, 26, 24, 124),
+            color: const Color.fromARGB(255, 24, 41, 138),
             elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -137,7 +137,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(255, 30, 29, 122)
+                      color: const Color.fromARGB(255, 36, 21, 172)
                           .withOpacity(0.2),
                       blurRadius: 5,
                       offset: const Offset(0, 3),
@@ -203,7 +203,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
                               errorBuilder: (BuildContext context,
                                   Object exception, StackTrace? stackTrace) {
                                 return const Icon(Icons.error,
-                                    color: Color.fromARGB(255, 10, 5, 75));
+                                    color: Color.fromARGB(255, 28, 19, 158));
                               },
                             ),
                           ),
@@ -219,7 +219,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
                               '#$pokemonNumber',
                               style: const TextStyle(
                                   fontSize: 16,
-                                  color: Color.fromARGB(255, 3, 4, 65)),
+                                  color: Color.fromARGB(255, 25, 27, 145)),
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -234,7 +234,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
                               _capitalize(pokemon.name),
                               style: const TextStyle(
                                   fontSize: 16,
-                                  color: Color.fromARGB(255, 3, 7, 71),
+                                  color: Color.fromARGB(255, 17, 25, 143),
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
