@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:poke_dex/models/pokemons_detalhes.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PokemonInfoPage extends StatelessWidget {
   final String url;
@@ -52,7 +53,6 @@ class PokemonInfoPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Nome do Pokémon
                   Center(
                     child: Text(
                       _capitalize(pokemonDetalhes.name),
@@ -64,8 +64,6 @@ class PokemonInfoPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // Tipo e imagem do Pokémon dentro de um Row
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -176,17 +174,24 @@ class PokemonInfoPage extends StatelessWidget {
   }
 
   Widget _buildHPSection(PokemonsDetalhes pokemonsDetalhes) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Icon(
+          Icons.favorite,
+          color: Colors.red,
+          size: 20.0,
+        ),
+        const SizedBox(width: 8),
         const Text(
-          'Hp:',
+          'HP:',
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
         ),
+        const SizedBox(width: 8),
         Text(
           '${pokemonsDetalhes.hp}',
           style: const TextStyle(
@@ -199,9 +204,19 @@ class PokemonInfoPage extends StatelessWidget {
   }
 
   Widget _buildAlturaSection(PokemonsDetalhes pokemonsDetalhes) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          children: [
+            Icon(
+              Icons.accessibility,
+              color: Colors.green,
+              size: 20.0,
+            ),
+          ],
+        ),
+        SizedBox(width: 8),
         const Text(
           'Altura:',
           style: TextStyle(
@@ -222,9 +237,19 @@ class PokemonInfoPage extends StatelessWidget {
   }
 
   Widget _buildPesoSection(PokemonsDetalhes pokemonsDetalhes) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          children: [
+            Icon(
+              Icons.scale,
+              color: Colors.orange,
+              size: 20.0,
+            ),
+          ],
+        ),
+        SizedBox(width: 8),
         const Text(
           'Peso:',
           style: TextStyle(
@@ -245,9 +270,15 @@ class PokemonInfoPage extends StatelessWidget {
   }
 
   Widget _buildAtaqueSection(PokemonsDetalhes pokemonsDetalhes) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(FontAwesomeIcons.handFist),
+          ],
+        ),
         const Text(
           'Ataque:',
           style: TextStyle(
@@ -256,6 +287,7 @@ class PokemonInfoPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        SizedBox(width: 8),
         Text(
           '${pokemonsDetalhes.ataque}',
           style: const TextStyle(
@@ -268,9 +300,19 @@ class PokemonInfoPage extends StatelessWidget {
   }
 
   Widget _buildDefesaSection(PokemonsDetalhes pokemonsDetalhes) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          children: [
+            Icon(
+              Icons.shield,
+              color: Colors.blue,
+              size: 20.0,
+            ),
+          ],
+        ),
+        SizedBox(width: 8),
         const Text(
           'Defesa:',
           style: TextStyle(
@@ -291,9 +333,19 @@ class PokemonInfoPage extends StatelessWidget {
   }
 
   Widget _buildAtaqueEspecialSection(PokemonsDetalhes pokemonsDetalhes) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          children: [
+            Icon(
+              Icons.flash_on,
+              color: Colors.orangeAccent,
+              size: 20.0,
+            ),
+          ],
+        ),
+        SizedBox(width: 8),
         const Text(
           'AtaqueEspecial:',
           style: TextStyle(
@@ -314,7 +366,7 @@ class PokemonInfoPage extends StatelessWidget {
   }
 
   Widget _buildDefesaEspecialSection(PokemonsDetalhes pokemonsDetalhes) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
@@ -325,6 +377,7 @@ class PokemonInfoPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        SizedBox(width: 8),
         Text(
           '${pokemonsDetalhes.defesaespecial}',
           style: const TextStyle(
@@ -337,9 +390,19 @@ class PokemonInfoPage extends StatelessWidget {
   }
 
   Widget _buildVelocidadeSection(PokemonsDetalhes pokemonDetalhes) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          children: [
+            Icon(
+              Icons.speed,
+              color: Colors.purple,
+              size: 20.0,
+            ),
+          ],
+        ),
+        SizedBox(width: 8),
         const Text(
           'Velocidade:',
           style: TextStyle(
