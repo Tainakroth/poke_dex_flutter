@@ -17,13 +17,23 @@ class PokemonInfoPage extends StatelessWidget {
       Response responseDadosPokemon = await dio.get(url);
       var dataPokemon = responseDadosPokemon.data as Map<String, dynamic>;
 
-      // Response response = await dio.get(url);
-      // var dadosRequisicaoApi = response.data as Map<String, dynamic>;
+      // Pega a URL de evolução a partir dos dados do Pokémon
+      String evolutionUrl = dataPokemon['species']['url'];
 
-      // dataPokemon.addAll(
-      //   {'evolutions': dadosRequisicaoApi},
-      // );
+      Response responseEvolucao = await dio.get(evolutionUrl);
+      var dadosEvolucao = responseEvolucao.data as Map<String, dynamic>;
 
+      // A URL de evolução vem dentro de 'evolution_chain', então devemos pegar isso
+      String evolutionChainUrl = dadosEvolucao['evolution_chain']['url'];
+
+      // Terceira requisição: Pega os dados da cadeia de evolução usando a URL
+      Response responseChain = await dio.get(evolutionChainUrl);
+      var dadosChain = responseChain.data as Map<String, dynamic>;
+
+      // Adicionando evoluções ao Map
+      dataPokemon['evolutions'] = dadosChain;
+
+      // Retorna os dados do Pokémon, incluindo as evoluções
       return PokemonsDetalhes.fromMap(dataPokemon);
     } catch (e) {
       throw Exception('Erro ao buscar dados do Pokémon: $e');
@@ -79,8 +89,8 @@ class PokemonInfoPage extends StatelessWidget {
                     children: [
                       Image.network(
                         pokemonDetalhes.gifUrl,
-                        width: 150,
-                        height: 150,
+                        width: 350,
+                        height: 350,
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
                           return const Icon(
@@ -157,7 +167,7 @@ class PokemonInfoPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      _buildMovimentoSection(pokemonDetalhes),
+                      _buildMovimentoSection(context, pokemonDetalhes),
                       const SizedBox(height: 10),
                     ],
                   ),
@@ -239,34 +249,36 @@ class PokemonInfoPage extends StatelessWidget {
 
   Widget _buildAlturaSection(PokemonsDetalhes pokemonsDetalhes) {
     double alturaPercentage = pokemonsDetalhes.altura / 10;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.accessibility,
               color: Colors.green,
               size: 20.0,
             ),
+            const SizedBox(width: 8),
+            const Text(
+              'Altura:',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${pokemonsDetalhes.altura}m',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
           ],
-        ),
-        SizedBox(width: 8),
-        const Text(
-          'Altura:',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
-        Text(
-          '${pokemonsDetalhes.altura}m',
-          style: const TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
         ),
         const SizedBox(height: 8),
         Container(
@@ -284,34 +296,36 @@ class PokemonInfoPage extends StatelessWidget {
 
   Widget _buildPesoSection(PokemonsDetalhes pokemonsDetalhes) {
     double pesoPercentage = pokemonsDetalhes.peso / 200;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.scale,
               color: Colors.orange,
               size: 20.0,
             ),
+            const SizedBox(width: 8),
+            const Text(
+              'Peso:',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${(pokemonsDetalhes.peso / 10).toStringAsFixed(1)}kg',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
           ],
-        ),
-        SizedBox(width: 8),
-        const Text(
-          'Peso:',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
-        Text(
-          '${(pokemonsDetalhes.peso / 10).toStringAsFixed(1)}kg',
-          style: const TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
         ),
         const SizedBox(height: 8),
         Container(
@@ -329,30 +343,37 @@ class PokemonInfoPage extends StatelessWidget {
 
   Widget _buildAtaqueSection(PokemonsDetalhes pokemonsDetalhes) {
     double ataquePercentage = pokemonsDetalhes.ataque / 100;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(FontAwesomeIcons.handFist),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(FontAwesomeIcons.handFist),
+              ],
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'Ataque:',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${(pokemonsDetalhes.ataque).toStringAsFixed(1)}kg',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
           ],
-        ),
-        const Text(
-          'Ataque:',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
-        SizedBox(width: 8),
-        Text(
-          '${pokemonsDetalhes.ataque}',
-          style: const TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
         ),
         const SizedBox(height: 8),
         Container(
@@ -370,34 +391,41 @@ class PokemonInfoPage extends StatelessWidget {
 
   Widget _buildDefesaSection(PokemonsDetalhes pokemonsDetalhes) {
     double defesaPercentage = pokemonsDetalhes.defesa / 100;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.shield,
-              color: Colors.blue,
-              size: 20.0,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.shield,
+                  color: Colors.blue,
+                  size: 20.0,
+                ),
+              ],
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'Defesa:',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${pokemonsDetalhes.defesa}',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
             ),
           ],
-        ),
-        SizedBox(width: 8),
-        const Text(
-          'Defesa:',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
-        Text(
-          '${pokemonsDetalhes.defesa}',
-          style: const TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
         ),
         const SizedBox(height: 8),
         Container(
@@ -415,35 +443,43 @@ class PokemonInfoPage extends StatelessWidget {
 
   Widget _buildAtaqueEspecialSection(PokemonsDetalhes pokemonsDetalhes) {
     double ataqueEspecialPercentage = pokemonsDetalhes.ataqueespecial / 100;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.flash_on,
-              color: Colors.orangeAccent,
-              size: 20.0,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.flash_on,
+                  color: Colors.orangeAccent,
+                  size: 20.0,
+                ),
+              ],
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'AtaqueEspecial:',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${pokemonsDetalhes.ataqueespecial}',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
             ),
           ],
         ),
-        SizedBox(width: 8),
-        const Text(
-          'AtaqueEspecial:',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
-        Text(
-          '${pokemonsDetalhes.ataqueespecial}',
-          style: const TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
+        const SizedBox(height: 8),
         Container(
           width: double.infinity,
           child: LinearProgressIndicator(
@@ -459,36 +495,43 @@ class PokemonInfoPage extends StatelessWidget {
 
   Widget _buildDefesaEspecialSection(PokemonsDetalhes pokemonsDetalhes) {
     double defesaEspecialPercentage = pokemonsDetalhes.defesaespecial / 100;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.shield,
-              color: Colors.blue,
-              size: 20.0,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.shield,
+                  color: Colors.blue,
+                  size: 20.0,
+                ),
+              ],
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'DefesaEspecial:',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${pokemonsDetalhes.defesaespecial}',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
             ),
           ],
         ),
-        SizedBox(width: 8),
-        const Text(
-          'DefesaEspecial:',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
-        SizedBox(width: 8),
-        Text(
-          '${pokemonsDetalhes.defesaespecial}',
-          style: const TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
+        const SizedBox(height: 8),
         Container(
           width: double.infinity,
           child: LinearProgressIndicator(
@@ -502,37 +545,45 @@ class PokemonInfoPage extends StatelessWidget {
     );
   }
 
-  Widget _buildVelocidadeSection(PokemonsDetalhes pokemonDetalhes) {
-    double velocidadePercentage = pokemonDetalhes.velocidade / 100;
+  Widget _buildVelocidadeSection(PokemonsDetalhes pokemonsDetalhes) {
+    double velocidadePercentage = pokemonsDetalhes.velocidade / 100;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.speed,
-              color: Colors.purple,
-              size: 20.0,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.speed,
+                  color: Colors.purple,
+                  size: 20.0,
+                ),
+              ],
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'Velocidade:',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${pokemonsDetalhes.velocidade}',
+              style: const TextStyle(
+                fontSize: 15,
+                color: Color.fromARGB(255, 14, 13, 13),
+              ),
             ),
           ],
         ),
-        SizedBox(width: 8),
-        const Text(
-          'Velocidade:',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
-        Text(
-          '${pokemonDetalhes.velocidade}',
-          style: const TextStyle(
-            fontSize: 15,
-            color: Color.fromARGB(255, 14, 13, 13),
-          ),
-        ),
+        const SizedBox(height: 8),
         Container(
           width: double.infinity,
           child: LinearProgressIndicator(
@@ -568,7 +619,8 @@ class PokemonInfoPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMovimentoSection(PokemonsDetalhes pokemonDetalhes) {
+  Widget _buildMovimentoSection(
+      BuildContext context, PokemonsDetalhes pokemonDetalhes) {
     return Card(
       color: const Color.fromARGB(255, 79, 110, 108),
       elevation: 4,
@@ -576,7 +628,10 @@ class PokemonInfoPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          // Aqui, removemos a passagem do 'context' para _showMovimentoDialog
+          _showMovimentoDialog(context, pokemonDetalhes);
+        },
         borderRadius: BorderRadius.circular(10),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -592,24 +647,12 @@ class PokemonInfoPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              // Iterando sobre os movimentos e criando um widget para cada um
-              Wrap(
-                spacing: 8.0, // Espaço entre os chips
-                runSpacing: 4.0, // Espaço entre as linhas
-                children: pokemonDetalhes.movimentos
-                    .map((move) => Chip(
-                          label: Text(
-                            _capitalize(
-                                move), // Capitalizando o nome do movimento
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          backgroundColor:
-                              const Color.fromARGB(255, 117, 141, 126),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ))
-                    .toList(),
+              Text(
+                'Toque para ver todos os movimentos',
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.8),
+                  fontSize: 14,
+                ),
               ),
             ],
           ),
@@ -618,11 +661,38 @@ class PokemonInfoPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEvolutionSection(PokemonsDetalhes pokemonDetalhes) {
-    if (pokemonDetalhes.evolucao.isEmpty) {
-      return SizedBox(); // Caso não tenha evolução, não exibe nada.
-    }
+  void _showMovimentoDialog(
+      BuildContext context, PokemonsDetalhes pokemonDetalhes) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Movimentos'),
+          content: SingleChildScrollView(
+            child: Wrap(
+              spacing: 8.0,
+              runSpacing: 4.0,
+              children: pokemonDetalhes.movimentos
+                  .map((move) => Chip(
+                        label: Text(
+                          _capitalize(move),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor:
+                            const Color.fromARGB(255, 117, 141, 126),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
+  Widget _buildEvolutionSection(PokemonsDetalhes pokemonDetalhes) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

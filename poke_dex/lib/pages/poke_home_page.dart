@@ -61,13 +61,13 @@ class _PokeHomePageState extends State<PokeHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 9, 17, 139),
+      backgroundColor: const Color.fromARGB(255, 162, 189, 189),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 12, 21, 150),
+        backgroundColor: const Color.fromARGB(255, 162, 189, 189),
         title: const Text(
           'Pokemons',
           style: TextStyle(
-            color: Color.fromARGB(255, 120, 155, 187),
+            color: Color.fromARGB(255, 6, 27, 24),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -117,7 +117,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
               ];
             },
             icon: const Icon(Icons.filter_list, color: Colors.white),
-            color: const Color.fromARGB(255, 24, 41, 138),
+            color: const Color.fromARGB(255, 3, 29, 18),
             elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -137,8 +137,8 @@ class _PokeHomePageState extends State<PokeHomePage> {
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color.fromARGB(255, 36, 21, 172)
-                          .withOpacity(0.2),
+                      color:
+                          const Color.fromARGB(255, 1, 48, 37).withOpacity(0.2),
                       blurRadius: 5,
                       offset: const Offset(0, 3),
                     ),
@@ -203,14 +203,14 @@ class _PokeHomePageState extends State<PokeHomePage> {
                               errorBuilder: (BuildContext context,
                                   Object exception, StackTrace? stackTrace) {
                                 return const Icon(Icons.error,
-                                    color: Color.fromARGB(255, 28, 19, 158));
+                                    color: Color.fromARGB(255, 19, 158, 93));
                               },
                             ),
                           ),
                           const SizedBox(height: 12),
                           Container(
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 9, 79, 136),
+                              color: const Color.fromARGB(255, 165, 182, 196),
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             padding: const EdgeInsets.symmetric(
@@ -225,7 +225,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
                           const SizedBox(height: 8),
                           Container(
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 37, 90, 134),
+                              color: const Color.fromARGB(255, 117, 138, 160),
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             padding: const EdgeInsets.symmetric(
@@ -234,7 +234,7 @@ class _PokeHomePageState extends State<PokeHomePage> {
                               _capitalize(pokemon.name),
                               style: const TextStyle(
                                   fontSize: 16,
-                                  color: Color.fromARGB(255, 17, 25, 143),
+                                  color: Color.fromARGB(255, 14, 15, 15),
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
